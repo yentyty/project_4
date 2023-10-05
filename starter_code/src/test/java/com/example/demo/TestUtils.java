@@ -1,33 +1,16 @@
 package com.example.demo;
 
-import com.example.demo.model.persistence.User;
-
 import java.lang.reflect.Field;
 
 public class TestUtils {
-    //this class helps to inject objects
-    public static void injectObjects(Object target, String filedName, Object toInject) {
-        boolean wasPrivate = false;
-
+    // This class helps to inject objects
+    public static void injectObjects(Object target, String fieldName, Object toInject) {
         try {
-            Field f = target.getClass().getDeclaredField(filedName);
-
-            if(!f.isAccessible()) { //checking if field is private
-                f.setAccessible(true);
-                wasPrivate = true;
-            }
-            f.set(target, toInject);
-            if(wasPrivate){
-                f.setAccessible(false);
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+            Field field = target.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(target, toInject);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }

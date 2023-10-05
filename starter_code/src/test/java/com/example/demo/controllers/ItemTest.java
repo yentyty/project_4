@@ -25,7 +25,7 @@ public class ItemTest {
 
     @BeforeEach
     public void setup() {
-        // Khởi tạo các mock object trước mỗi phương thức kiểm tra
+        // Initialize mock objects before each test method
         itemRepository = mock(ItemRepository.class);
         itemController = new ItemController();
         TestUtils.injectObjects(itemController, "itemRepository", itemRepository);

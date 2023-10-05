@@ -47,8 +47,10 @@ public class CartTest {
     public void testAddToCart_ValidUserAndItem_ReturnsCart() {
         // Arrange
         User user = new User();
+        Cart cart = new Cart();
         user.setUsername("testUser");
-        user.setPassword("testPassword");
+        user.setPassword("Password");
+        user.setCart(cart);
 
         Item item = new Item();
         item.setId(1L);
@@ -69,9 +71,9 @@ public class CartTest {
         // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        Cart cart = response.getBody();
-        assertNotNull(cart);
-        assertEquals(2, cart.getItems().size());
+        Cart carts = response.getBody();
+        assertNotNull(carts);
+        assertEquals(2, carts.getItems().size());
         verify(userRepository).findByUsername("testUser");
         verify(itemRepository).findById(1L);
         verify(cartRepository).save(cart);
@@ -128,8 +130,10 @@ public class CartTest {
     public void testRemoveFromCart_ValidUserAndItem_ReturnsCart() {
         // Arrange
         User user = new User();
+        Cart cart = new Cart();
         user.setUsername("testUser");
-        user.setPassword("testPassword");
+        user.setPassword("Password");
+        user.setCart(cart);
 
         Item item = new Item();
         item.setId(1L);
@@ -141,7 +145,6 @@ public class CartTest {
         request.setItemId(1L);
         request.setQuantity(1);
 
-        Cart cart = new Cart();
         cart.setUser(user);
         cart.addItem(item);
 
@@ -208,7 +211,4 @@ public class CartTest {
         verify(itemRepository).findById(1L);
         verify(cartRepository, never()).save(any(Cart.class));
     }
-
-    // Additional test methods...
-
 }
